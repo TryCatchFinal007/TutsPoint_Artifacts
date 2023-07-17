@@ -1,0 +1,22 @@
+﻿
+//myContext.Students.Add(
+//new Student()
+//{
+//    FirstName = "Ramanuja",
+//    LastName = "Chary",
+//    ClassesJoined = new List<Class>()
+//      {
+//          new Class(){ ClassName = "Go", MaxStrength=24, Location="Kasi",
+//              CourseDurationInMonths=9, TaughtInLanguage=Language.Hindi, TutorFullName="Modi"},
+//          new Class(){ ClassName = "C#", MaxStrength=45, Location="Goa",
+//              CourseDurationInMonths=3, TaughtInLanguage=Language.Konkani, TutorFullName="Rambo Rathode"},
+//          new Class(){ ClassName = "Python", MaxStrength=290, Location="Youtube",
+//              CourseDurationInMonths=2, TaughtInLanguage=Language.English, TutorFullName="Mosh Hamadani"},
+//          new Class(){ ClassName = "Cyber Security", MaxStrength=900, Location="Udemy",
+//              CourseDurationInMonths=20, TaughtInLanguage=Language.French, TutorFullName="Julian Asange"}
+//      },
+//    DOB = new DateTime(1999, 10, 31),
+//    EmailAddress = "Ramanuja_chary007@gmail.xyz",
+//    MobileNumber = "6543210897"
+
+//}

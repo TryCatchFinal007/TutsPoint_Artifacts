@@ -1,0 +1,118 @@
+﻿using (var ctx = new Context())
+{
+    var sampleOne = from schs in ctx.Schedules.AsEnumerable()
+                    join tut in ctx.Tutors.AsEnumerable() on schs.TutorId equals tut.TutorID
+                    join crs in ctx.Courses.AsEnumerable() on schs.CourseId equals crs.CourseId
+                    select new { schs, tut, crs };
+
+    //var sampleTwo = from r in sampleOne;
+
+    Console.WriteLine("| ScheduleId | CourseId | CourseName | CrsLanguage | TutorId | First | TutMotherTongue");
+    foreach (var s in sampleOne)
+    {
+        Console.WriteLine("| {0} | {1} | {2} | {3} | {4} | {5} | {6} |", s.schs.ScheduleId, s.crs.CourseId, s.crs.CourseName, s.crs.TaughtInLanguage, s.tut.TutorID, s.tut.FirstName, s.tut.MotherTongue);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

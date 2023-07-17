@@ -1,0 +1,780 @@
+﻿//==> WAP to show all tutors who teach the course by course ID?
+var input9 = 350000;
+var sol9 = myContext.Schedules.Where(k => k.CourseId == input9).Select(m => m.TutorId).Distinct();
+foreach (var sol in sol9)
+{
+    var sol911 = myContext.Tutors.Where(i => i.TutorID == sol).FirstOrDefault();
+    if (sol911 != null)
+    {
+        Console.WriteLine("Tutor ID: " + sol911.TutorID + "\tTutor Name: " + sol911.FirstName + " " + sol911.LastName);
+    }
+    else
+    {
+        Console.WriteLine("--------------------------Special Focus Area---------------------------------------");
+        Console.WriteLine("No such tutor available with tutor ID: " + sol + " Teach the course with course ID: " + input9);
+        var sol912 = myContext.Schedules.Where(o => o.CourseId == input9 && o.TutorId == sol).ToList();
+        foreach (var sol11 in sol912)
+        {
+            Console.WriteLine("The schedule ID for this combination is: " + sol11.ScheduleId + " with studentID: " + sol11.StudentId);
+        }
+        Console.WriteLine("-----------------------------------------------------------------");
+    }
+}
+Console.WriteLine("End of the program.............");
+
+
+//==> WAP to show all students who registered for the course by course ID?
+var input8 = 350005;
+var sol8 = myContext.Schedules.Where(k => k.CourseId == input8).Select(m => m.StudentId).Distinct();
+foreach (var sol in sol8)
+{
+    var sol811 = myContext.Students.Where(i => i.StudentID == sol).FirstOrDefault();
+    if (sol811 != null)
+    {
+        Console.WriteLine("Student ID: " + sol811.StudentID + "\tStudent Name: " + sol811.FirstName + " " + sol811.LastName);
+    }
+    else
+    {
+        Console.WriteLine("--------------------------Special Focus Area---------------------------------------");
+        Console.WriteLine("No such student available with student ID: " + sol + " Registered in course with course ID: " + input8);
+        var sol812 = myContext.Schedules.Where(o => o.CourseId == input8 && o.StudentId == sol).ToList();
+        foreach (var sol11 in sol812)
+        {
+            Console.WriteLine("The schedule ID for this combination is: " + sol11.ScheduleId + " with tutorId: " + sol11.TutorId);
+        }
+        Console.WriteLine("-----------------------------------------------------------------");
+    }
+}
+Console.WriteLine("End of the program.............");
+
+
+//==> WAP to show all the students who taught by the tutor by tutor ID?
+var input8 = 1004;
+var sol8 = myContext.Schedules.Where(k => k.TutorId == input8).Select(m => m.StudentId).Distinct();
+foreach (var sol in sol8)
+{
+    var sol811 = myContext.Students.Where(i => i.StudentID == sol).FirstOrDefault();
+    if (sol811 != null)
+    {
+        Console.WriteLine("Student ID: " + sol811.StudentID + "\tStudent Name: " + sol811.FirstName + " " + sol811.LastName);
+    }
+    else
+    {
+        Console.WriteLine("--------------------------Special Focus Area---------------------------------------");
+        Console.WriteLine("No such student available with student ID: " + sol + " Taught by the tutor with tutor ID: " + input8);
+        var sol812 = myContext.Schedules.Where(o => o.TutorId == input8 && o.StudentId == sol).ToList();
+        foreach (var sol11 in sol812)
+        {
+            Console.WriteLine("The schedule ID for this combination is: " + sol11.ScheduleId + " with courseId: " + sol11.CourseId);
+        }
+        Console.WriteLine("-----------------------------------------------------------------");
+    }
+}
+Console.WriteLine("End of the program.............");
+
+
+//==> WAP to show all courses taught by the tutor by tutor ID?
+var input7 = 1011;
+var sol7 = myContext.Schedules.Where(j => j.TutorId == input7).Select(m => m.CourseId).Distinct();
+foreach (var sol in sol7)
+{
+    var sol711 = myContext.Courses.Where(k => k.CourseId == sol).FirstOrDefault();
+    if (sol711 != null)
+    {
+        Console.WriteLine("Course ID: " + sol711.CourseId + "\tCourse Name: " + sol711.CourseName);
+    }
+    else
+    {
+        Console.WriteLine("No Such course exists for Data, with CourseId=" + sol);
+    }
+}
+Console.WriteLine("Program ended...............");
+
+
+//==> WAP to show all tutors who teach student by student ID?
+var input6 = 16;
+var sol6 = myContext.Schedules.Where(j => j.StudentId == input6).Select(m => m.TutorId).Distinct();
+foreach (var sol in sol6)
+{
+    var sol611 = myContext.Tutors.Where(k => k.TutorID == sol).FirstOrDefault();
+    if (sol611 != null)
+    {
+        Console.WriteLine("Tutor ID: " + sol611.TutorID + "\tTutor Name: " + sol611.FirstName + " " + sol611.LastName);
+    }
+    else
+    {
+        Console.WriteLine("No Such tutor exists for Data, with TutorId=" + sol);
+    }
+}
+Console.WriteLine("Program ended...............");
+
+
+//==> WAP to show all courses registered by a student by student ID?
+var input5 = 20;
+var sol5 = myContext.Schedules.Where(j => j.StudentId == input5).Select(m => m.CourseId).Distinct();
+foreach (var sol in sol5)
+{
+    var sol511 = myContext.Courses.Where(k => k.CourseId == sol).FirstOrDefault();
+    if (sol511 != null)
+    {
+        Console.WriteLine("Course ID: " + sol511.CourseId + "\tCourse Name: " + sol511.CourseName);
+    }
+    else
+    {
+        Console.WriteLine("No Such course exists for Data, with CourseId=" + sol);
+    }
+}
+Console.WriteLine("Program ended...............");
+
+
+//==> WAP to get course details which is taught by max number of tutors?
+//SQL QUERY: select CourseId from (select CourseId, count(distinct TutorId) as 'NoOfTutors' from Schedules group by CourseId) as def where NoOfTutors = (select max(NoOfTutors) as Cnt from(select CourseId, count(distinct TutorId) as 'NoOfTutors' from Schedules group by CourseId) as abc)
+using (var ctx = new Context())
+{
+    var demo2 = ctx.Schedules.GroupBy(k => k.CourseId)
+        .Select(grp => new
+        {
+            str_key = grp.Key,      // CourseId column
+            TtlCnt = grp.Count(),   // Total count of CourseId mentioned in table 
+            UniTutrCnt = grp.Select(p => p.TutorId).Distinct().Count(), // Distinct count of tutors who teach the particular course
+        }).ToList();
+
+    var maxOfUniqueTutorsCnt = 0;   // variable used to extract the max count of unique count column
+
+    // Table which prints all tutors unique count for all courses
+    Console.WriteLine("----------------------------\n|  Course | Total | Unique |\n----------------------------");
+    foreach (var g in demo2)
+    {
+        if (maxOfUniqueTutorsCnt == 0) { maxOfUniqueTutorsCnt = g.UniTutrCnt; }
+        else { if (maxOfUniqueTutorsCnt < g.UniTutrCnt) { maxOfUniqueTutorsCnt = g.UniTutrCnt; } }
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", g.str_key, g.TtlCnt, g.UniTutrCnt);
+    }
+    Console.WriteLine("----------------------------");
+
+    Console.WriteLine("\nA course with highest number of unique tutors is {0}\n", maxOfUniqueTutorsCnt);
+
+    var demo3 = from r in demo2
+                where r.UniTutrCnt == maxOfUniqueTutorsCnt
+                select r;
+
+    Console.WriteLine("All Courses having max number of tutors");
+    Console.WriteLine("----------------------------\n|  Course | Total | Unique |\n----------------------------");
+    foreach (var o in demo3)
+    {
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", o.str_key, o.TtlCnt, o.UniTutrCnt);
+    }
+    Console.WriteLine("----------------------------");
+}
+
+
+//==> WAP to get course details which has max number of unique students?
+//SQL QUERY: select CourseId from (select CourseId, count(distinct StudentId) as 'NoOfStudents' from Schedules group by CourseId) as def where NoOfStudents = (select max(NoOfStudents) as Cnt from(select CourseId, count(distinct StudentId) as 'NoOfStudents' from Schedules group by CourseId) as abc)
+using (var ctx = new Context())
+{
+    var demo2 = ctx.Schedules.GroupBy(k => k.CourseId)
+        .Select(grp => new
+        {
+            str_key = grp.Key,      // CourseId column
+            TtlCnt = grp.Count(),   // Total count of CourseId mentioned in table 
+            UniStuCnt = grp.Select(p => p.StudentId).Distinct().Count(), // Distinct count of students who registered for the particular course
+        }).ToList();
+
+    var maxOfUniqueStudentsCnt = 0;   // variable used to extract the max count of unique count of a column
+
+    // Table which prints all unique students count for all courses
+    Console.WriteLine("----------------------------\n|  Course | Total | Unique |\n----------------------------");
+    foreach (var g in demo2)
+    {
+        if (maxOfUniqueStudentsCnt == 0) { maxOfUniqueStudentsCnt = g.UniStuCnt; }
+        else { if (maxOfUniqueStudentsCnt < g.UniStuCnt) { maxOfUniqueStudentsCnt = g.UniStuCnt; } }
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", g.str_key, g.TtlCnt, g.UniStuCnt);
+    }
+    Console.WriteLine("----------------------------");
+
+    Console.WriteLine("\nA course with highest number of unique registered students is {0}\n", maxOfUniqueStudentsCnt);
+
+    var demo3 = from r in demo2
+                where r.UniStuCnt == maxOfUniqueStudentsCnt
+                select r;
+
+    Console.WriteLine("All Courses having max number of unique registered students");
+    Console.WriteLine("----------------------------\n|  Course | Total | Unique |\n----------------------------");
+    foreach (var o in demo3)
+    {
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", o.str_key, o.TtlCnt, o.UniStuCnt);
+    }
+    Console.WriteLine("----------------------------");
+}
+
+
+//==> WAP to get student details who taught by max number of unique tutors?
+//SQL QUERY: select StudentId from (select StudentId, count(distinct TutorId) as 'NoOfTutors' from Schedules group by StudentId) as def where NoOfTutors = (select max(NoOfTutors) as Cnt from(select StudentId, count(distinct TutorId) as 'NoOfTutors' from Schedules group by StudentId) as abc)
+using (var ctx = new Context())
+{
+    var demo2 = ctx.Schedules.GroupBy(k => k.StudentId)
+        .Select(grp => new
+        {
+            str_key = grp.Key,      // StudentId column
+            TtlCnt = grp.Count(),   // Total count of StudentId mentioned in table 
+            UniTutrsCnt = grp.Select(p => p.TutorId).Distinct().Count(), // Distinct count of tutors teach the particular student
+        }).ToList();
+
+    var maxOfUniqueTutorsCnt = 0;   // variable used to extract the max count of unique count of a column
+
+    // Table which prints all unique courses count for all students
+    Console.WriteLine("----------------------------\n|  Student | Total | Unique |\n----------------------------");
+    foreach (var g in demo2)
+    {
+        if (maxOfUniqueTutorsCnt == 0) { maxOfUniqueTutorsCnt = g.UniTutrsCnt; }
+        else { if (maxOfUniqueTutorsCnt < g.UniTutrsCnt) { maxOfUniqueTutorsCnt = g.UniTutrsCnt; } }
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", g.str_key, g.TtlCnt, g.UniTutrsCnt);
+    }
+    Console.WriteLine("----------------------------");
+
+    Console.WriteLine("\nA student get taught by maximum number of unique tutors is {0}\n", maxOfUniqueTutorsCnt);
+
+    var demo3 = from r in demo2
+                where r.UniTutrsCnt == maxOfUniqueTutorsCnt
+                select r;
+
+    Console.WriteLine("All students having max number of unique registered courses");
+    Console.WriteLine("----------------------------\n|  Student | Total | Unique |\n----------------------------");
+    foreach (var o in demo3)
+    {
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", o.str_key, o.TtlCnt, o.UniTutrsCnt);
+    }
+    Console.WriteLine("----------------------------");
+}
+
+
+//==> WAP to get student details who registered in max number of unique courses?
+//SQL QUERY: select StudentId from (select StudentId, count(distinct CourseId) as 'NoOfCourses' from Schedules group by StudentId) as def where NoOfCourses = (select max(NoOfCourses) as Cnt from(select StudentId, count(distinct CourseId) as 'NoOfCourses' from Schedules group by StudentId) as abc)
+using (var ctx = new Context())
+{
+    var demo2 = ctx.Schedules.GroupBy(k => k.StudentId)
+        .Select(grp => new
+        {
+            str_key = grp.Key,      // StudentId column
+            TtlCnt = grp.Count(),   // Total count of StudentId mentioned in table 
+            UniCrsCnt = grp.Select(p => p.CourseId).Distinct().Count(), // Distinct count of courses registered by the particular student
+        }).ToList();
+
+    var maxOfUniqueCoursesCnt = 0;   // variable used to extract the max count of unique count of a column
+
+    // Table which prints all unique courses count for all students
+    Console.WriteLine("----------------------------\n|  Student | Total | Unique |\n----------------------------");
+    foreach (var g in demo2)
+    {
+        if (maxOfUniqueCoursesCnt == 0) { maxOfUniqueCoursesCnt = g.UniCrsCnt; }
+        else { if (maxOfUniqueCoursesCnt < g.UniCrsCnt) { maxOfUniqueCoursesCnt = g.UniCrsCnt; } }
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", g.str_key, g.TtlCnt, g.UniCrsCnt);
+    }
+    Console.WriteLine("----------------------------");
+
+    Console.WriteLine("\nA student with highest number of unique courses registered is {0}\n", maxOfUniqueCoursesCnt);
+
+    var demo3 = from r in demo2
+                where r.UniCrsCnt == maxOfUniqueCoursesCnt
+                select r;
+
+    Console.WriteLine("All students having max number of unique registered courses");
+    Console.WriteLine("----------------------------\n|  Student | Total | Unique |\n----------------------------");
+    foreach (var o in demo3)
+    {
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", o.str_key, o.TtlCnt, o.UniCrsCnt);
+    }
+    Console.WriteLine("----------------------------");
+}
+
+
+
+//==> WAP to get tutor details who teach max number of unique courses?
+//SQL QUERY: select TutorId from (select TutorId, count(distinct CourseId) as 'NoOfCourses' from Schedules group by TutorId) as def where NoOfCourses = (select max(NoOfCourses) as Cnt from(select TutorId, count(distinct CourseId) as 'NoOfCourses' from Schedules group by TutorId) as abc)
+using (var ctx = new Context())
+{
+    var demo2 = ctx.Schedules.GroupBy(k => k.TutorId)
+        .Select(grp => new
+        {
+            str_key = grp.Key,      // StudentId column
+            TtlCnt = grp.Count(),   // Total count of TutorId mentioned in table 
+            UniCrsCnt = grp.Select(p => p.CourseId).Distinct().Count(), // Distinct count of courses registered to teach by the particular tutor
+        }).ToList();
+
+    var maxOfUniqueCoursesCnt = 0;   // variable used to extract the max count of unique count of a column
+
+    // Table which prints all unique courses count teach by tutor
+    Console.WriteLine("----------------------------\n|  Tutors | Total | Unique |\n----------------------------");
+    foreach (var g in demo2)
+    {
+        if (maxOfUniqueCoursesCnt == 0) { maxOfUniqueCoursesCnt = g.UniCrsCnt; }
+        else { if (maxOfUniqueCoursesCnt < g.UniCrsCnt) { maxOfUniqueCoursesCnt = g.UniCrsCnt; } }
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", g.str_key, g.TtlCnt, g.UniCrsCnt);
+    }
+    Console.WriteLine("----------------------------");
+
+    Console.WriteLine("\nA tutor with highest number of unique courses registered to teach is {0}\n", maxOfUniqueCoursesCnt);
+
+    var demo3 = from r in demo2
+                where r.UniCrsCnt == maxOfUniqueCoursesCnt
+                select r;
+
+    Console.WriteLine("All students having max number of unique registered courses");
+    Console.WriteLine("----------------------------\n|  Tutors | Total | Unique |\n----------------------------");
+    foreach (var o in demo3)
+    {
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", o.str_key, o.TtlCnt, o.UniCrsCnt);
+    }
+    Console.WriteLine("----------------------------");
+}
+
+
+
+//==> WAP to get tutor details who teach max number of unique students?
+//SQL QUERY: select TutorId from (select TutorId,count(distinct StudentId) as 'NoOfStudents' from Schedules group by TutorId) as def where NoOfStudents = (select max(NoOfStudents) as Cnt from (select TutorId,count(distinct StudentId) as 'NoOfStudents' from Schedules group by TutorId) as abc)
+using (var ctx = new Context())
+{
+    var demo2 = ctx.Schedules.GroupBy(k => k.TutorId)
+        .Select(grp => new
+        {
+            str_key = grp.Key,      // CourseId column
+            TtlCnt = grp.Count(),   // Total count of TutorId mentioned in table 
+            UniStuCnt = grp.Select(p => p.StudentId).Distinct().Count(), // Distinct count of students who taught by particular tutor
+        }).ToList();
+
+    var maxOfUniqueStudentsCnt = 0;   // variable used to extract the max count of unique count of a column
+
+    // Table which prints all unique students count who get taught by particular tutor
+    Console.WriteLine("----------------------------\n|  Tutor | Total | Unique |\n----------------------------");
+    foreach (var g in demo2)
+    {
+        if (maxOfUniqueStudentsCnt == 0) { maxOfUniqueStudentsCnt = g.UniStuCnt; }
+        else { if (maxOfUniqueStudentsCnt < g.UniStuCnt) { maxOfUniqueStudentsCnt = g.UniStuCnt; } }
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", g.str_key, g.TtlCnt, g.UniStuCnt);
+    }
+    Console.WriteLine("----------------------------");
+
+    Console.WriteLine("\nA tutor with maximum number of unique registered students is {0}\n", maxOfUniqueStudentsCnt);
+
+    var demo3 = from r in demo2
+                where r.UniStuCnt == maxOfUniqueStudentsCnt
+                select r;
+
+    Console.WriteLine("All Courses having max number of unique registered students");
+    Console.WriteLine("----------------------------\n|  Tutor | Total | Unique |\n----------------------------");
+    foreach (var o in demo3)
+    {
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", o.str_key, o.TtlCnt, o.UniStuCnt);
+    }
+    Console.WriteLine("----------------------------");
+}
+
+
+//==> WAP to show all tutors who mother tongue matches with their course registered to teach?
+//SQL QUERY: select distinct sch.CourseId, crs.CourseName, crs.TaughtInLanguage, sch.TutorId, tut.FirstName, tut.LastName, tut.MotherTongue 
+//from Schedules as sch join Tutors as tut on sch.TutorId = tut.TutorID join Courses as crs on sch.CourseId = crs.CourseId
+//where crs.TaughtInLanguage = tut.MotherTongue
+using (var ctx = new Context())
+{
+    var sampleOne = (from schs in ctx.Schedules.AsEnumerable()
+                    join tut in ctx.Tutors.AsEnumerable() on schs.TutorId equals tut.TutorID
+                    join crs in ctx.Courses.AsEnumerable() on schs.CourseId equals crs.CourseId
+                    where crs.TaughtInLanguage == tut.MotherTongue
+                    orderby crs.CourseId
+                    select new { tut, crs }).Distinct();
+
+    Console.WriteLine("| CourseId | CourseName | CrsLanguage | TutorId | First | TutMotherTongue");
+    foreach (var s in sampleOne)
+    {
+        Console.WriteLine("| {0} | {1} | {2} | {3} | {4} | {5} |", s.crs.CourseId, s.crs.CourseName, s.crs.TaughtInLanguage, s.tut.TutorID, s.tut.FirstName, s.tut.MotherTongue);
+    }
+}
+
+
+
+//==> WAP to show all students who get taught their enrolled courses in their mother tongue?
+//SQL QUERY: select distinct sch.StudentId, stu.FirstName, stu.LastName--, stu.MotherTongue, crs.CourseId, crs.CourseName, crs.TaughtInLanguage
+//from Schedules as sch join Students as stu on sch.StudentId = stu.StudentID join Courses as crs on sch.CourseId = crs.CourseId
+//where stu.MotherTongue=crs.TaughtInLanguage order by sch.StudentID
+using (var ctx = new Context())
+{
+    var sampleOne = (from schs in ctx.Schedules.AsEnumerable()
+                     join stu in ctx.Students.AsEnumerable() on schs.StudentId equals stu.StudentID
+                     join crs in ctx.Courses.AsEnumerable() on schs.CourseId equals crs.CourseId
+                     where crs.TaughtInLanguage == stu.MotherTongue
+                     orderby crs.CourseId
+                     select new { stu, crs }).Distinct();
+
+    Console.WriteLine("| CourseId | CourseName | CrsLanguage | StudentId | First | StuMotherTongue");
+    foreach (var s in sampleOne)
+    {
+        Console.WriteLine("| {0} | {1} | {2} | {3} | {4} | {5} |", s.crs.CourseId, s.crs.CourseName, s.crs.TaughtInLanguage, s.stu.StudentID, s.stu.FirstName, s.stu.MotherTongue);
+    }
+}
+
+
+
+//==> WAP to show all courses who have students < 6?
+//SQL QUERY: select CourseId, count(distinct StudentId) from Schedules group by CourseId having count(distinct StudentId) < 6
+using(var ctx = new Context())
+{
+    var demo3 = from sch in ctx.Schedules.AsEnumerable()
+                group sch by sch.CourseId into g
+                where g.Select(i => i.StudentId).Distinct().Count() < 6
+                select new
+                {
+                    gKey = g.Key,
+                    TtlStu = g.Count(),
+                    UniTtlStudents = g.Select(p => p.ScheduleId).Distinct().Count()
+                };
+
+    Console.WriteLine("All Courses number of unique registered students less than 6");
+    Console.WriteLine("----------------------------\n|  Course | TtlStu | UniTtlStu |\n----------------------------");
+    foreach (var o in demo3)
+    {
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", o.gKey, o.TtlStu, o.UniTtlStudents);
+    }
+    Console.WriteLine("----------------------------");
+}
+
+
+
+
+//==> WAP to show all courses who have students > 6 and < 10 ?
+//SQL QUERY: select CourseId, count(distinct StudentId) from Schedules group by CourseId having count(distinct StudentId) between 7 and 9
+using(var ctx = new Context())
+{
+    var demo4 = from sch in ctx.Schedules.AsEnumerable()
+                group sch by sch.CourseId into grp
+                where grp.Select(u => u.StudentId).Distinct().Count() > 6 && grp.Select(u => u.StudentId).Distinct().Count() < 10
+                orderby grp.Key
+                select new
+                {
+                    grpKey = grp.Key,
+                    grpTtlCnt = grp.Count(),
+                    UniStuCnt = grp.Select(i => i.StudentId).Distinct().Count()
+                };
+
+    Console.WriteLine("All Courses number of unique registered students greater than 6 and less than 10");
+    Console.WriteLine("----------------------------\n|  Course | TtlStu | UniTtlStu |\n----------------------------");
+    foreach (var o in demo4)
+    {
+        Console.WriteLine("| {0} | {1}\t | {2}\t|", o.grpKey, o.grpTtlCnt, o.UniStuCnt);
+    }
+    Console.WriteLine("----------------------------");
+}
+
+
+
+
+//==> WAP to show all students whose mother tongue matches with tutor mother tongue?
+//SQL QUERY: select distinct stu.StudentID, stu.FirstName, stu.MotherTongue, tut.TutorID, tut.FirstName, tut.MotherTongue--, sch.CourseId
+//from Schedules as sch join Students as stu on sch.StudentId = stu.StudentID join Tutors as tut on sch.TutorId = tut.TutorID
+//where stu.MotherTongue = tut.MotherTongue
+using(var ctx = new Context())
+{
+    var demo6 = (from sch in ctx.Schedules.AsEnumerable()
+                join stu in ctx.Students.AsEnumerable()
+                on sch.StudentId equals stu.StudentID
+                join tut in ctx.Tutors.AsEnumerable()
+                on sch.TutorId equals tut.TutorID
+                where stu.MotherTongue == tut.MotherTongue
+                orderby stu.StudentID
+                select new { stu, tut }).Distinct();
+
+    int count = 0;
+    Console.WriteLine("| StudentId | Student Name | StuMotherTongue | TutuorId | Tutor Name | TutMotherTongue");
+    foreach (var s in demo6)
+    {
+        Console.WriteLine("| {0} | {1} | {2} | {3} | {4} | {5} |", s.stu.StudentID, s.stu.FirstName, s.stu.MotherTongue, s.tut.TutorID, s.tut.FirstName, s.tut.MotherTongue);
+        count++;
+    }
+    Console.WriteLine("\nTotal '{0}' records.",count);
+}
+
+
+
+
+
+
+
+//==> WAP to get course details which have Zero students?
+//SQL QUERY: select * from Courses where CourseId not in (select distinct CourseId from Schedules)
+using (var ctx = new Context())
+{
+    var allCoursesHavingStuds = new List<int>();
+    var demo10 = (from sch in ctx.Schedules.AsEnumerable()
+                  orderby sch.CourseId
+                  select new { sch.CourseId }).Distinct();
+
+    foreach (var r in demo10) { allCoursesHavingStuds.Add(r.CourseId); }
+    //foreach(var s in allCoursesHavingStuds) { Console.WriteLine(s); }
+
+    var demo11 = from crs in ctx.Courses.AsEnumerable()
+                 where allCoursesHavingStuds.Contains(crs.CourseId) == false
+                 select new { crs };
+
+    foreach (var i in demo11)
+    {
+        Console.WriteLine("----------------------------------------------------------------" +
+        "\nCourse Id: {0}\nCourse Name: {1}\nCourse Description: {2}" +
+        "\nStart Date: {3}\nEnd Date: {4}\nLocation: {5}\n------------------------------------------------------" +
+        "------", i.crs.CourseId, i.crs.CourseName, i.crs.CourseDescription,
+        i.crs.StartDate, i.crs.EndDate, i.crs.Location);
+    }
+}
+
+
+//==> WAP to get All students who not registered in atleast one course?
+//SQL QUERY: select * from Students where StudentID not in (select distinct StudentId from Schedules)
+using (var ctx = new Context())
+{
+    var allStudsRegisteredInCourses = new List<int>();
+    var demo10 = (from sch in ctx.Schedules.AsEnumerable()
+                  orderby sch.StudentId
+                  select new { sch.StudentId }).Distinct();
+
+    foreach (var r in demo10) { allStudsRegisteredInCourses.Add(r.StudentId); }
+    //foreach(var s in allStudsRegisteredInCourses) { Console.WriteLine(s); }
+
+    var demo11 = from stu in ctx.Students.AsEnumerable()
+                 where allStudsRegisteredInCourses.Contains(stu.StudentID) == false
+                 select new { stu };
+
+    foreach (var i in demo11)
+    {
+        Console.WriteLine("----------------------------------------------------------------" +
+        "\nStudent Id: {0}\nStudent Name: {1} {2}\nDOB: {3}" +
+        "\nMother Tongue: {4}\nEmail Address: {5}\nMobile Number: {6}\n------------------------------------------------------" +
+        "------", i.stu.StudentID, i.stu.FirstName, i.stu.LastName, i.stu.DOB,
+        i.stu.MotherTongue, i.stu.EmailAddress, i.stu.MobileNumber);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

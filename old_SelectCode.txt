@@ -1,0 +1,12 @@
+﻿//var myStudent = myContext.Students.Where(s => s.Gender == Gender.Female);
+
+//foreach (var student in myStudent)
+//{
+//    Console.WriteLine(student.FirstName + " " + student.LastName + " " + student.EmailAddress + " " + Decrypt(student.Password) + "\n");
+//}
+
+//var myClasses1 = myContext.Classes.Where(c => c.ClassName == "C#").Distinct().ToList();
+//foreach (var c in myClasses1)
+//{
+//    Console.WriteLine(c.TutorFullName.ToString() + "\n");
+//}

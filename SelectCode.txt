@@ -1,0 +1,21 @@
+﻿/* Select functionality  */
+
+var demoObj = myContext.Students.Where(o => o.StudentID > 0).ToList();
+
+foreach(var obj in demoObj)
+{
+    Console.WriteLine("---------------------------------------------------");
+    Console.WriteLine("First Name :"+obj.FirstName);
+    Console.WriteLine("Last Name :" + obj.LastName);
+    Console.WriteLine("Date Of Birth :" + obj.DOB);
+    Console.WriteLine("Email Address :" + obj.EmailAddress);
+    Console.WriteLine("Hashed Password :" + obj.Password);
+    Console.WriteLine("Password :" + Decrypt(obj.Password));
+    Console.WriteLine("Mobile Number :" + obj.MobileNumber);
+    Console.WriteLine("Mother Tongue :" + obj.MotherTongue);
+    Console.WriteLine("Gender :" + obj.Gender);
+    Console.WriteLine("Government ID Type :" + obj.GovIdType);
+    Console.WriteLine("Government ID Number :" + obj.GovtIdentificationNumber);
+    Console.WriteLine("Student ID :" + obj.StudentID);
+    Console.WriteLine("---------------------------------------------------");
+}

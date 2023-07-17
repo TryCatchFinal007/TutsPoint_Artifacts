@@ -1,0 +1,21 @@
+﻿
+//----- For selecting the records which we are going to update
+var culprit = myContext.Students.Where(o => o.StudentID == 8).FirstOrDefault();
+Console.WriteLine(culprit.StudentID+" "+ culprit.FirstName + " " + culprit.LastName + "'s Mobile number is "+culprit.MobileNumber);
+//-----------------------------
+
+//-----Creating an other context object for updating the record
+var studs = myContext.Students.Where(k => k.StudentID == 8).FirstOrDefault();
+studs.MobileNumber = "+914332072951";
+//-----------Updating completed
+
+//--------Testing whether field updated for first context object before saving changes
+Console.WriteLine("Now "+culprit.LastName+"'s Mobile number is "+culprit.MobileNumber);
+//--------------------
+
+//----- Saving the changes
+myContext.SaveChanges();
+//----------------
+
+//--- Now checking whether changes updated in first context object after saving content.
+Console.WriteLine("Now " + culprit.LastName + "'s Mobile number is " + culprit.MobileNumber);

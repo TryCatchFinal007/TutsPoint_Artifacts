@@ -1,0 +1,29 @@
+﻿
+//---- Even if we enter "Mohan" here in database we getting result set with record having "mohan"
+//-----So, even if we think it is case-sensitive here, it is not happening at database level
+var obj = myContext.Students.Where(v => v.LastName == "Mohan").FirstOrDefault();
+if (obj != null)
+{
+    Console.WriteLine(obj.StudentID + " " + obj.FirstName + " " + obj.LastName + "'s Details going to be deleted in no time. so kindly take a screenshot of these details.");
+    Console.WriteLine("---------------------------------------------------");
+    Console.WriteLine("First Name :" + obj.FirstName);
+    Console.WriteLine("Last Name :" + obj.LastName);
+    Console.WriteLine("Date Of Birth :" + obj.DOB);
+    Console.WriteLine("Email Address :" + obj.EmailAddress);
+    Console.WriteLine("Password :" + obj.Password);
+    Console.WriteLine("Password :" + Decrypt(obj.Password));
+    Console.WriteLine("Mobile Number :" + obj.MobileNumber);
+    Console.WriteLine("Mother Tongue :" + obj.MotherTongue);
+    Console.WriteLine("Gender :" + obj.Gender);
+    Console.WriteLine("Government ID Type :" + obj.GovIdType);
+    Console.WriteLine("Government ID Number :" + obj.GovtIdentificationNumber);
+    Console.WriteLine("Student ID :" + obj.StudentID);
+    Console.WriteLine("---------------------------------------------------");
+
+    //myContext.Students.Remove(obj);
+    //Console.WriteLine("The above record is now removed from database");
+}
+else
+{
+    Console.WriteLine("No such person's record exist with your search query");
+}

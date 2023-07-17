@@ -1,0 +1,14 @@
+﻿
+
+
+/* Delete the last record in table */
+
+//using (var dtx = new Context())
+//{
+//    var y = (from a in dtx.Students
+//             orderby a.StudentID descending
+//             select a).FirstOrDefault();
+//    dtx.Students.Remove(y);
+//    dtx.SaveChanges();
+
+//}

@@ -1,0 +1,147 @@
+﻿/*  Insert functionality  */
+myContext.Students.Add(
+//new Student()
+//{
+//    FirstName = "Gulzar",
+//    LastName = "Garde",
+//    DOB = new DateTime(1995, 4, 24),
+//    Gender = Gender.Female,
+//    EmailAddress = "vbatta@mutti.com",
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "481599033448",
+//    MobileNumber = "+919685080113",
+//    MotherTongue = Language.Hindi,
+//    Password = Encrypt("9e470bcf")
+//},
+//new Student()
+//{
+//    FirstName = "Amrita",
+//    LastName = "D'Alia",
+//    DOB = new DateTime(1995, 12, 23),
+//    Gender = Gender.Female,
+//    MobileNumber = "+912590538730",
+//    EmailAddress = "megha.loyal@gmail.com",
+//    MotherTongue = Language.English,
+//    Password = Encrypt("10f629hid"),
+//    GovIdType = GovernmentID.PAN_Card,
+//    GovtIdentificationNumber = "JEPPJ63697B"
+//},
+//new Student()
+//{
+//    FirstName = "Riddhi",
+//    LastName = "Deshmukh",
+//    DOB = new DateTime(1998, 04, 23),
+//    Gender = Gender.Female,
+//    MobileNumber = "05394523790",
+//    EmailAddress = "nadharni.nishita@deshmukh.com",
+//    MotherTongue = Language.Telugu,
+//    Password = Encrypt("775d678b"),
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "601116965694"
+//},
+//new Student()
+//{
+//    FirstName = "Yamini",
+//    LastName = "Reddy",
+//    EmailAddress = "rgoel@mathai.in",
+//    Password = Encrypt("ba2c105c"),
+//    DOB = new DateTime(1997, 03, 25),
+//    Gender = Gender.Female,
+//    MotherTongue = Language.Telugu,
+//    MobileNumber = "06125510432",
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "453295645165"
+//},
+//new Student()
+//{
+//    FirstName = "Koushtubh",
+//    LastName = "Jacob",
+//    EmailAddress = "gara.pamela@seth.org",
+//    Password = Encrypt("284c8db1"),
+//    DOB = new DateTime(1999, 05, 3),
+//    Gender = Gender.Male,
+//    MotherTongue = Language.Konkani,
+//    MobileNumber = "+914258558064",
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "222173334081"
+//},
+//new Student()
+//{
+//    FirstName = "Raju",
+//    LastName = "Wason",
+//    EmailAddress = "tbeharry@raju.ac.in",
+//    Password = Encrypt("d3a9121b"),
+//    DOB = new DateTime(1997, 08, 25),
+//    Gender = Gender.Male,
+//    MotherTongue = Language.Greek,
+//    MobileNumber = "09787898535",
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "370240346266"
+//},
+//new Student()
+//{
+//    FirstName = "Anil",
+//    LastName = "Chakraborty",
+//    EmailAddress = "namita.gobin@hotmail.com",
+//    Password = Encrypt("b7c1d456"),
+//    DOB = new DateTime(1998, 02, 13),
+//    Gender = Gender.Male,
+//    MotherTongue = Language.Telugu,
+//    MobileNumber = "02854659949",
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "453904957144"
+//},
+//new Student()
+//{
+//    FirstName = "Raghavan",
+//    LastName = "Borra",
+//    EmailAddress = "bhakta.shashank@hotmail.com",
+//    Password = Encrypt("7eb45f887f"),
+//    DOB = new DateTime(1999, 06, 4),
+//    Gender = Gender.Male,
+//    MotherTongue = Language.Telugu,
+//    MobileNumber = "+918439083416",
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "492956148916"
+//},
+//new Student()
+//{
+//    FirstName = "Raj",
+//    LastName = "Bhardwaj",
+//    EmailAddress = "Raj.krishnan@radha.ac.in",
+//    Password = Encrypt("34307c88"),
+//    DOB = new DateTime(1998, 07, 14),
+//    Gender = Gender.Male,
+//    MotherTongue = Language.Telugu,
+//    MobileNumber = "+911056913015",
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "525487350477"
+//},
+//new Student()
+//{
+//    FirstName = "Dipthi",
+//    LastName = "Sheth",
+//    EmailAddress = "sheth.kasturi54@yahoo.com",
+//    Password = Encrypt("449c2a24"),
+//    DOB = new DateTime(1998, 2, 5),
+//    Gender = Gender.Female,
+//    MotherTongue = Language.Hindi,
+//    MobileNumber = "+919796921013",
+//    GovIdType = GovernmentID.Aadhaar_Card,
+//    GovtIdentificationNumber = "471646836698"
+//}
+);
+myContext.SaveChanges();
+
+
+**************************************************************************************************
+//////New way of adding multiple records
+using Context myContext = new Context();
+
+List<Schedule> sch = new List<Schedule>();
+
+sch.Add(new Schedule { CourseId = 350000, TutorId = 1004, StudentId = 9, CreateDateTime = DateTime.Now, ModifiedDateTime = DateTime.Now });
+sch.Add(new Schedule { CourseId = 350000, TutorId = 1004, StudentId = 24, CreateDateTime = DateTime.Now, ModifiedDateTime = DateTime.Now });
+sch.Add(new Schedule { CourseId = 350000, TutorId = 1004, StudentId = 25, CreateDateTime = DateTime.Now, ModifiedDateTime = DateTime.Now });
+
+myContext.Schedules.AddRange(sch);
