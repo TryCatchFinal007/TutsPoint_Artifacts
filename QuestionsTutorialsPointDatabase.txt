@@ -1,0 +1,21 @@
+TutorialsPoint database questions?
+
+1) WAP to get All students who not registered in atleast one course?
+2) WAP to get course details which have Zero students?
+3) WAP to show all students whose mother tongue matches with tutor mother tongue?
+4) WAP to show all courses who have students > 6 and < 10 ?
+5) WAP to show all courses who have students < 6?
+6) WAP to show all students who get taught their enrolled courses in their mother tongue?
+7) WAP to show all tutors who mother tongue matches with their course registered to teach?
+8) WAP to get tutor details who teach max number of unique students?
+9) WAP to get tutor details who teach max number of unique courses?
+10) WAP to get student details who registered in max number of unique courses?
+11) WAP to get student details who taught by max number of unique tutors?
+12) WAP to get course details which has max number of unique students?
+13) WAP to get course details which is taught by max number of tutors?
+14) WAP to show all courses registered by a student by student ID?
+15) WAP to show all tutors who teach student by student ID?
+16) WAP to show all courses taught by the tutor by tutor ID?
+17) WAP to show all the students who taught by the tutor by tutor ID?
+18) WAP to show all students who registered for the course by course ID?
+19) WAP to show all tutors who teach the course by course ID?

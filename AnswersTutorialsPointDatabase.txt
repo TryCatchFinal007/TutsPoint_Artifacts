@@ -1,0 +1,41 @@
+SQL Questions Answers sheet
+
+1) select * from Students where StudentID not in (select distinct StudentId from Schedules)
+
+2) select * from Courses where CourseId not in (select distinct CourseId from Schedules)
+
+3) //SQL QUERY: select distinct stu.StudentID, stu.FirstName, stu.MotherTongue, tut.TutorID, tut.FirstName, tut.MotherTongue--, sch.CourseId
+//from Schedules as sch join Students as stu on sch.StudentId = stu.StudentID join Tutors as tut on sch.TutorId = tut.TutorID
+//where stu.MotherTongue = tut.MotherTongue 
+
+
+4) select CourseId, count(distinct StudentId) from Schedules group by CourseId having count(distinct StudentId) between 7 and 9
+
+5) select CourseId, count(distinct StudentId) from Schedules group by CourseId having count(distinct StudentId) < 6
+
+6) //SQL QUERY: select distinct sch.StudentId, stu.FirstName, stu.LastName--, stu.MotherTongue, crs.CourseId, crs.CourseName, crs.TaughtInLanguage
+//from Schedules as sch join Students as stu on sch.StudentId = stu.StudentID join Courses as crs on sch.CourseId = crs.CourseId
+//where stu.MotherTongue=crs.TaughtInLanguage order by sch.StudentID
+
+
+7) //SQL QUERY: select distinct sch.CourseId, crs.CourseName, crs.TaughtInLanguage, sch.TutorId, tut.FirstName, tut.LastName, tut.MotherTongue 
+//from Schedules as sch join Tutors as tut on sch.TutorId = tut.TutorID join Courses as crs on sch.CourseId = crs.CourseId
+//where crs.TaughtInLanguage = tut.MotherTongue
+
+
+8) select TutorId from (select TutorId,count(distinct StudentId) as 'NoOfStudents' from Schedules group by TutorId) as def where NoOfStudents = (select max(NoOfStudents) as Cnt from (select TutorId,count(distinct StudentId) as 'NoOfStudents' from Schedules group by TutorId) as abc)
+
+
+9) select TutorId from (select TutorId, count(distinct CourseId) as 'NoOfCourses' from Schedules group by TutorId) as def where NoOfCourses = (select max(NoOfCourses) as Cnt from(select TutorId, count(distinct CourseId) as 'NoOfCourses' from Schedules group by TutorId) as abc)
+
+
+10) select StudentId from (select StudentId, count(distinct CourseId) as 'NoOfCourses' from Schedules group by StudentId) as def where NoOfCourses = (select max(NoOfCourses) as Cnt from(select StudentId, count(distinct CourseId) as 'NoOfCourses' from Schedules group by StudentId) as abc)
+
+
+11) select StudentId from (select StudentId, count(distinct TutorId) as 'NoOfTutors' from Schedules group by StudentId) as def where NoOfTutors = (select max(NoOfTutors) as Cnt from(select StudentId, count(distinct TutorId) as 'NoOfTutors' from Schedules group by StudentId) as abc)
+
+
+12) select CourseId from (select CourseId, count(distinct StudentId) as 'NoOfStudents' from Schedules group by CourseId) as def where NoOfStudents = (select max(NoOfStudents) as Cnt from(select CourseId, count(distinct StudentId) as 'NoOfStudents' from Schedules group by CourseId) as abc)
+
+
+13) select CourseId from (select CourseId, count(distinct TutorId) as 'NoOfTutors' from Schedules group by CourseId) as def where NoOfTutors = (select max(NoOfTutors) as Cnt from(select CourseId, count(distinct TutorId) as 'NoOfTutors' from Schedules group by CourseId) as abc)
